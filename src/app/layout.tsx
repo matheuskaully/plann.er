@@ -18,7 +18,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-zinc-950 text-zinc-50 antialiased`}
       >
-        <main className="bg-pattern bg-center bg-no-repeat">{children}</main>
+        {children}
       </body>
     </html>
   )
