@@ -1,8 +1,8 @@
-import { ArrowLeft, Calendar, MapPin, Settings2 } from 'lucide-react'
+import { Calendar, MapPin, MoveLeft, Settings2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import Button from './button'
 import Image from 'next/image'
 import logo from '../../public/logo.png'
-import { useRouter } from 'next/navigation'
 
 export default function DestinationAndDateHeader() {
   const router = useRouter()
@@ -18,10 +18,10 @@ export default function DestinationAndDateHeader() {
 
         <button
           onClick={backToHomePage}
-          className="flex items-center gap-2 text-zinc-400 underline-offset-4 hover:underline"
+          className="flex items-center gap-2 text-sm text-zinc-400 underline-offset-4 hover:underline"
         >
-          <ArrowLeft className="size-4" />
-          voltar
+          <MoveLeft className="size-4" />
+          Voltar
         </button>
       </div>
 
