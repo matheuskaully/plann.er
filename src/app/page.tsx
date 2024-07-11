@@ -9,6 +9,8 @@ import InviteGuestsModal from '@/components/invite-guests-modal'
 import ConfirmTripModal from '@/components/confirm-trip-modal'
 import DestinationAndStep from '@/components/steps/destination-and-step'
 import InviteGuestsStep from '@/components/steps/invite-guests-step'
+import { DateRange } from 'react-day-picker'
+import { api } from '@/lib/axios'
 
 export default function Home() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState<boolean>(false)
@@ -20,6 +22,14 @@ export default function Home() {
     'nicole.xavier@rocketseat.com.br',
     'rocket@admin.com.br',
   ])
+
+  const [destination, setDestination] = useState<string>('')
+  const [ownerName, setOwnerName] = useState<string>('')
+  const [ownerEmail, setOwnerEmail] = useState<string>('')
+  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<
+    DateRange | undefined
+  >()
+
   const router = useRouter()
 
   function openGuestsInputOpen() {
@@ -72,9 +82,46 @@ export default function Home() {
     setEmailsToInvite(newEmailList)
   }
 
-  function createTrip(event: FormEvent<HTMLFormElement>) {
+  async function createTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    router.push('/trip/123')
+
+    console.log(destination)
+    console.log(eventStartAndEndDates)
+
+    console.log(emailsToInvite)
+    console.log(ownerName)
+    console.log(ownerEmail)
+
+    if (!destination) {
+      return
+    }
+
+    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+      return
+    }
+
+    if (emailsToInvite.length === 0) {
+      return
+    }
+
+    if (!ownerName || !ownerEmail) {
+      return
+    }
+
+    const response = await api.post('/trips', {
+      destination,
+      starts_at: eventStartAndEndDates.from,
+      ends_at: eventStartAndEndDates.to,
+      emails_to_invite: emailsToInvite,
+      owner_name: ownerName,
+      owner_email: ownerEmail,
+    })
+
+    const { tripId } = response.data
+
+    console.log(tripId)
+
+    router.push(`/trip/${tripId}`)
   }
 
   return (
@@ -92,6 +139,9 @@ export default function Home() {
             closeGuestsInput={closeGuestsInput}
             openGuestsInputOpen={openGuestsInputOpen}
             isGuestsInputOpen={isGuestsInputOpen}
+            setDestination={setDestination}
+            setEventStartAndEndDates={setEventStartAndEndDates}
+            eventStartAndEndDates={eventStartAndEndDates}
           />
 
           {isGuestsInputOpen && (
@@ -130,6 +180,8 @@ export default function Home() {
         <ConfirmTripModal
           createTrip={createTrip}
           closeConfirmTripModal={closeConfirmTripModal}
+          setOwnerName={setOwnerName}
+          setOwnerEmail={setOwnerEmail}
         />
       )}
     </div>
