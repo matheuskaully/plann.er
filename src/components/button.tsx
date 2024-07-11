@@ -5,8 +5,8 @@ const buttonVariants = tv({
   base: 'items-center justify-center gap-2 rounded-lg py-2 px-5 flex',
   variants: {
     variant: {
-      primary: 'bg-lime-300 text-lime-950 hover:bg-lime-400 -0',
-      secondary: 'bg-zinc-800 text-zinc-200 hover:bg-zinc-700 -0',
+      primary: 'bg-lime-300 text-lime-950 hover:bg-lime-400',
+      secondary: 'bg-zinc-800 text-zinc-200 hover:bg-zinc-700',
     },
 
     size: {
